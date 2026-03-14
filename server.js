@@ -4,26 +4,34 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"]
+}));
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: "*",
+    methods: ["GET", "POST"]
   }
 });
 
 io.on("connection", (socket) => {
 
-  console.log("User connected:", socket.id);
+  console.log("User connected", socket.id);
 
   socket.on("sendMessage", (data) => {
 
-    console.log(data);
+    const message = {
+      user: data.user,
+      text: data.text,
+      time: new Date().toLocaleTimeString()
+    };
 
-    // broadcast message to all users
-    io.emit("receiveMessage", data);
+    io.emit("receiveMessage", message);
 
   });
 
@@ -33,6 +41,8 @@ io.on("connection", (socket) => {
 
 });
 
-server.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log("Server running on", PORT);
 });
