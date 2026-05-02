@@ -16,10 +16,7 @@ const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
-  },
-  pingTimeout: 60000,       // ← add this
-  pingInterval: 25000,      // ← add this
-  transports: ['websocket', 'polling']  // ← allow polling as fallback
+  }
 });
 
 io.on("connection", (socket) => {
@@ -44,8 +41,7 @@ io.on("connection", (socket) => {
 
 });
 
-// ✅ Correct
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
 server.listen(PORT, () => {
   console.log("Server running on", PORT);
