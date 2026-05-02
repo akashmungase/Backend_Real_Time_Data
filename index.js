@@ -46,3 +46,12 @@ const PORT = 8080;
 server.listen(PORT, () => {
   console.log("Server running on", PORT);
 });
+
+// ping self every 14 minutes to prevent sleep
+setInterval(() => {
+  https.get('https://backend-real-time-data.onrender.com', (res) => {
+    console.log('Self ping:', res.statusCode);
+  }).on('error', (e) => {
+    console.log('Ping error:', e.message);
+  });
+}, 14 * 60 * 1000);
