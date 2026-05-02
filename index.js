@@ -44,8 +44,6 @@ io.on("connection", (socket) => {
 
 });
 
-const PORT = 8080;
-
 // ✅ Correct
 const PORT = process.env.PORT || 8080;
 
